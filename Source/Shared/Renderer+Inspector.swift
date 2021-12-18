@@ -77,7 +77,11 @@ extension Renderer {
     public func toggleInspector()
     {
         if let inspectorWindow = self.inspectorWindow {
-            inspectorWindow.setIsVisible(!inspectorWindow.isVisible)
+            #if os(macOS)
+            inspectorWindow.contentView!.isHidden = (!inspectorWindow.contentView!.isHidden)
+            #elseif os(iOS)
+            inspectorWindow.view!.isHidden = (!inspectorWindow.view!.isHidden)
+            #endif
         }
     }
     #endif

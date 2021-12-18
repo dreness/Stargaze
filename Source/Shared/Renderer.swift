@@ -195,7 +195,9 @@ class Renderer: Forge.Renderer, MaterialDelegate {
     }()
     
     override func setupMtkView(_ metalKitView: MTKView) {
+        #if os(iOS)
         metalKitView.sampleCount = 8
+        #endif
         metalKitView.depthStencilPixelFormat = .depth32Float
         metalKitView.preferredFramesPerSecond = 60
     }
@@ -216,7 +218,7 @@ class Renderer: Forge.Renderer, MaterialDelegate {
 
     override func update() {
         cameraController.update()
-        let bb = textMesh.bounds
+        let bb = textMesh.geometry.bounds
         textMaterial.set("Bounds", simd_make_float4(bb.min.x, bb.min.y, bb.max.x, bb.max.y))
         #if os(macOS) || os(iOS)
         updateInspector()
