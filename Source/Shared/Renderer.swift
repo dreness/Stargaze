@@ -197,6 +197,8 @@ class Renderer: Forge.Renderer, MaterialDelegate {
     override func setupMtkView(_ metalKitView: MTKView) {
         #if os(iOS)
         metalKitView.sampleCount = 8
+        #elseif os(macOS)
+        metalKitView.sampleCount = 4
         #endif
         metalKitView.depthStencilPixelFormat = .depth32Float
         metalKitView.preferredFramesPerSecond = 60
