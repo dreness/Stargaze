@@ -194,12 +194,27 @@ class Renderer: Forge.Renderer, MaterialDelegate {
         CFAbsoluteTimeGetCurrent()
     }()
     
+    func setBestSampleCount() {
+        if ((device?.supportsTextureSampleCount(8)) == true) {
+            mtkView.sampleCount = 8
+            return
+        }
+        if ((device?.supportsTextureSampleCount(4)) == true) {
+            mtkView.sampleCount = 4
+            return
+        }
+        if ((device?.supportsTextureSampleCount(2)) == true) {
+            mtkView.sampleCount = 2
+            return
+        }
+        if ((device?.supportsTextureSampleCount(1)) == true) {
+            mtkView.sampleCount = 1
+            return
+        }
+    }
+    
     override func setupMtkView(_ metalKitView: MTKView) {
-        #if os(iOS)
-        metalKitView.sampleCount = 8
-        #elseif os(macOS)
-        metalKitView.sampleCount = 4
-        #endif
+        setBestSampleCount()
         metalKitView.depthStencilPixelFormat = .depth32Float
         metalKitView.preferredFramesPerSecond = 60
     }
